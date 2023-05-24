@@ -43,17 +43,17 @@ namespace Tennis
             else if (_score1 >= 4 || _score2 >= 4)
             {
                 // we MIGHT have a winner
-                var minusResult = _score1 - _score2;
+                var scoreDifference = _score1 - _score2;
 
-                if (minusResult == 1)
+                if (IsPlayer1WinningBy1Point())
                 {
                     score = "Advantage player1";
                 }
-                else if (minusResult == -1)
+                else if (IsPlayer2WinningBy1Point())
                 {
                     score = "Advantage player2";
                 }
-                else if (minusResult >= 2)
+                else if (IsPlayer1WinningBy2Points())
                 {
                     score = "Win for player1";
                 }
@@ -72,6 +72,15 @@ namespace Tennis
 
             return score;
         }
+
+        private bool IsPlayer1WinningBy2Points() =>
+            _score1 >= _score2 + 2;
+
+        private bool IsPlayer2WinningBy1Point() =>
+            _score2 == _score1 + 1;
+
+        private bool IsPlayer1WinningBy1Point() =>
+            _score1 == _score2 + 1;
 
         private static string GetScoreDescription(int scoreNumber) =>
             scoreNumber switch
