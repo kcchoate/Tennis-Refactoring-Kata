@@ -14,20 +14,19 @@ namespace Tennis
         public TennisGame2(string player1Name, string player2Name)
         {
             _player1Name = player1Name;
-            _p1Point = 0;
             _player2Name = player2Name;
         }
 
         public string GetScore()
         {
             var score = "";
-            if (ArePlayersTied() && _p1Point < 3)
+
+            if (ArePlayersTied())
             {
-                score = GetScoreDescription(_p1Point);
-                score += "-All";
+                return _p1Point > 2
+                    ? "Deuce"
+                    : $"{_p1Description}-All";
             }
-            if (ArePlayersTied() && _p1Point > 2)
-                score = "Deuce";
 
             score = GetMidGameScoreDescription(score);
 
@@ -41,11 +40,11 @@ namespace Tennis
                 score = "Advantage player2";
             }
 
-            if (_p1Point >= 4 && _p2Point >= 0 && (_p1Point - _p2Point) >= 2)
+            if (IsGameWinnableForPlayer1() && _p2Point >= 0 && (_p1Point - _p2Point) >= 2)
             {
                 score = "Win for player1";
             }
-            if (_p2Point >= 4 && _p1Point >= 0 && (_p2Point - _p1Point) >= 2)
+            if (IsGameWinnableForPlayer2() && _p1Point >= 0 && (_p2Point - _p1Point) >= 2)
             {
                 score = "Win for player2";
             }
@@ -54,13 +53,16 @@ namespace Tennis
 
         private string GetMidGameScoreDescription(string score)
         {
-            if (_p1Point >= 4 || _p2Point >= 4 || ArePlayersTied())
+            if (IsGameWinnableForPlayer1() || IsGameWinnableForPlayer2() || ArePlayersTied())
             {
                 return score;
             }
 
             return _p1Description + "-" + _p2Description;
         }
+
+        private bool IsGameWinnableForPlayer1() => _p1Point >= 4;
+        private bool IsGameWinnableForPlayer2() => _p2Point >= 4;
 
         private bool ArePlayersTied() => _p1Point == _p2Point;
 
