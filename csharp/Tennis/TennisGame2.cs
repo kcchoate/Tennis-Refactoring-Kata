@@ -28,31 +28,34 @@ namespace Tennis
                     : $"{_p1Description}-All";
             }
 
-            if (!IsGameWinnableForPlayer1() && !IsGameWinnableForPlayer2())
+            if (IsMidGame())
             {
                 return GetMidGameScoreDescription();
             }
 
-            if (_p1Point > _p2Point && _p2Point >= 3)
+            if (IsGameWinnableForPlayer1() && _p2Point >= 0 && (_p1Point - _p2Point) >= 2)
+            {
+                return "Win for player1";
+            }
+            if (IsGameWinnableForPlayer2() && _p1Point >= 0 && (_p2Point - _p1Point) >= 2)
+            {
+                return "Win for player2";
+            }
+
+            if (_p1Point > _p2Point)
             {
                 score = "Advantage player1";
             }
 
-            if (_p2Point > _p1Point && _p1Point >= 3)
+            if (_p2Point > _p1Point)
             {
                 score = "Advantage player2";
             }
 
-            if (IsGameWinnableForPlayer1() && _p2Point >= 0 && (_p1Point - _p2Point) >= 2)
-            {
-                score = "Win for player1";
-            }
-            if (IsGameWinnableForPlayer2() && _p1Point >= 0 && (_p2Point - _p1Point) >= 2)
-            {
-                score = "Win for player2";
-            }
             return score;
         }
+
+        private bool IsMidGame() => !IsGameWinnableForPlayer1() && !IsGameWinnableForPlayer2();
 
         private string GetMidGameScoreDescription() => _p1Description + "-" + _p2Description;
 
