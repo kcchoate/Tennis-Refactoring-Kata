@@ -108,7 +108,7 @@ namespace Tennis
         {
             for (int i = 0; i < number; i++)
             {
-                P1Score();
+                IncrementP1Score();
             }
         }
 
@@ -116,16 +116,16 @@ namespace Tennis
         {
             for (var i = 0; i < number; i++)
             {
-                P2Score();
+                IncrementP2Score();
             }
         }
 
-        private void P1Score()
+        private void IncrementP1Score()
         {
             _p1Point++;
         }
 
-        private void P2Score()
+        private void IncrementP2Score()
         {
             _p2Point++;
         }
@@ -133,9 +133,9 @@ namespace Tennis
         public void WonPoint(string player)
         {
             if (player == "player1")
-                P1Score();
+                IncrementP1Score();
             else
-                P2Score();
+                IncrementP2Score();
         }
 
     }
