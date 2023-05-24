@@ -4,7 +4,6 @@ namespace Tennis
     {
         private int _p1Point;
         private int _p2Point;
-
         private string _p1Description => GetScoreDescription(_p1Point);
         private string _p2Description => GetScoreDescription(_p2Point);
 
@@ -21,40 +20,15 @@ namespace Tennis
         {
             if (ArePlayersTied())
             {
-                return _p1Point > 2
-                    ? "Deuce"
-                    : $"{_p1Description}-All";
+                return GetTieScoreDescription();
             }
 
-            if (IsMidGame())
-            {
-                return GetMidGameScoreDescription();
-            }
-
-            if (IsGameWinnableForPlayer1() && _p2Point >= 0 && (_p1Point - _p2Point) >= 2)
-            {
-                return "Win for player1";
-            }
-            if (IsGameWinnableForPlayer2() && _p1Point >= 0 && (_p2Point - _p1Point) >= 2)
-            {
-                return "Win for player2";
-            }
-
-            return _p1Point > _p2Point
-                ? "Advantage player1"
-                : "Advantage player2";
+            return IsMidGame()
+                ? GetMidGameScoreDescription()
+                : GetEndGamePhaseScoreDescription();
         }
 
-        private bool IsMidGame() => !IsGameWinnableForPlayer1() && !IsGameWinnableForPlayer2();
-
-        private string GetMidGameScoreDescription() => _p1Description + "-" + _p2Description;
-
-        private bool IsGameWinnableForPlayer1() => _p1Point >= 4;
-        private bool IsGameWinnableForPlayer2() => _p2Point >= 4;
-
-        private bool ArePlayersTied() => _p1Point == _p2Point;
-
-        public string GetScoreDescription(int score) =>
+        private string GetScoreDescription(int score) =>
             score switch
             {
                 0 => "Love",
@@ -63,20 +37,34 @@ namespace Tennis
                 _ => "Forty",
             };
 
-        public void SetP1Score(int number)
-        {
-            for (int i = 0; i < number; i++)
-            {
-                IncrementP1Score();
-            }
-        }
+        private bool ArePlayersTied() => _p1Point == _p2Point;
+        private string GetTieScoreDescription() =>
+            _p1Point > 2
+                ? "Deuce"
+                : $"{_p1Description}-All";
 
-        public void SetP2Score(int number)
+        private bool IsMidGame() => !IsGameWinnableForPlayer1() && !IsGameWinnableForPlayer2();
+        private string GetMidGameScoreDescription() => _p1Description + "-" + _p2Description;
+        private bool IsGameWinnableForPlayer1() => _p1Point >= 4;
+        private bool IsGameWinnableForPlayer2() => _p2Point >= 4;
+        private bool HasPlayerOneWon() => (_p1Point - _p2Point) >= 2 && IsGameWinnableForPlayer1();
+        private bool HasPlayerTwoWon() => (_p2Point - _p1Point) >= 2 && IsGameWinnableForPlayer2();
+
+        private string GetEndGamePhaseScoreDescription()
         {
-            for (var i = 0; i < number; i++)
+            if (HasPlayerOneWon())
             {
-                IncrementP2Score();
+                return "Win for player1";
             }
+
+            if (HasPlayerTwoWon())
+            {
+                return "Win for player2";
+            }
+
+            return _p1Point > _p2Point
+                ? "Advantage player1"
+                : "Advantage player2";
         }
 
         private void IncrementP1Score()
