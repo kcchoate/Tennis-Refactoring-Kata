@@ -65,38 +65,42 @@ namespace Tennis
             else
             {
                 // the score is NOT tied, and nobody has won yet
-                for (var i = 1; i < 3; i++)
+                switch (_score1)
                 {
-                    var tempScore = 0;
+                    case 0:
+                        score += "Love";
+                        break;
+                    case 1:
+                        score += "Fifteen";
+                        break;
+                    case 2:
+                        score += "Thirty";
+                        break;
+                    case 3:
+                        score += "Forty";
+                        break;
+                }
 
-                    if (i == 1)
-                    {
-                        tempScore = _score1;
-                    }
-                    else
-                    {
-                        score += "-";
-                        tempScore = _score2;
-                    }
-                    switch (tempScore)
-                    {
-                        case 0:
-                            score += "Love";
-                            break;
-                        case 1:
-                            score += "Fifteen";
-                            break;
-                        case 2:
-                            score += "Thirty";
-                            break;
-                        case 3:
-                            score += "Forty";
-                            break;
-                    }
+                score += "-";
+
+                switch (_score2)
+                {
+                    case 0:
+                        score += "Love";
+                        break;
+                    case 1:
+                        score += "Fifteen";
+                        break;
+                    case 2:
+                        score += "Thirty";
+                        break;
+                    case 3:
+                        score += "Forty";
+                        break;
                 }
             }
+
             return score;
         }
     }
 }
-
