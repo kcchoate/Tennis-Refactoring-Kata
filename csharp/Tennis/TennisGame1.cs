@@ -31,7 +31,6 @@ namespace Tennis
 
             if (_score1 == _score2)
             {
-                // the score is tied
                 score = _score1 switch
                 {
                     0 => "Love-All",
@@ -61,7 +60,6 @@ namespace Tennis
             }
             else
             {
-                // the score is NOT tied, and nobody has won yet
                 score = GetScoreDescription(_score1);
                 score += "-";
                 score += GetScoreDescription(_score2);
