@@ -42,9 +42,6 @@ namespace Tennis
             }
             else if (_score1 >= 4 || _score2 >= 4)
             {
-                // we MIGHT have a winner
-                var scoreDifference = _score1 - _score2;
-
                 if (IsPlayer1WinningBy1Point())
                 {
                     score = "Advantage player1";
