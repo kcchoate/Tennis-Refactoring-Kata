@@ -19,8 +19,6 @@ namespace Tennis
 
         public string GetScore()
         {
-            var score = "";
-
             if (ArePlayersTied())
             {
                 return _p1Point > 2
@@ -42,17 +40,9 @@ namespace Tennis
                 return "Win for player2";
             }
 
-            if (_p1Point > _p2Point)
-            {
-                score = "Advantage player1";
-            }
-
-            if (_p2Point > _p1Point)
-            {
-                score = "Advantage player2";
-            }
-
-            return score;
+            return _p1Point > _p2Point
+                ? "Advantage player1"
+                : "Advantage player2";
         }
 
         private bool IsMidGame() => !IsGameWinnableForPlayer1() && !IsGameWinnableForPlayer2();
