@@ -65,42 +65,21 @@ namespace Tennis
             else
             {
                 // the score is NOT tied, and nobody has won yet
-                switch (_score1)
-                {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-
+                score = GetScoreDescription(_score1);
                 score += "-";
-
-                switch (_score2)
-                {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
+                score += GetScoreDescription(_score2);
             }
 
             return score;
         }
+
+        private static string GetScoreDescription(int scoreNumber) =>
+            scoreNumber switch
+            {
+                0 => "Love",
+                1 => "Fifteen",
+                2 => "Thirty",
+                _ => "Forty",
+            };
     }
 }
