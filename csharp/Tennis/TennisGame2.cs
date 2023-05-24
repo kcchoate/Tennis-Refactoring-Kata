@@ -20,39 +20,24 @@ namespace Tennis
         public string GetScore()
         {
             var score = "";
-            if (_p1Point == _p2Point && _p1Point < 3)
+            if (ArePlayersTied() && _p1Point < 3)
             {
-                if (_p1Point == 0)
-                    score = "Love";
-                if (_p1Point == 1)
-                    score = "Fifteen";
-                if (_p1Point == 2)
-                    score = "Thirty";
+                score = GetScoreDescription(_p1Point);
                 score += "-All";
             }
-            if (_p1Point == _p2Point && _p1Point > 2)
+            if (ArePlayersTied() && _p1Point > 2)
                 score = "Deuce";
 
             if (_p1Point > 0 && _p2Point == 0)
             {
-                if (_p1Point == 1)
-                    _p1Res = "Fifteen";
-                if (_p1Point == 2)
-                    _p1Res = "Thirty";
-                if (_p1Point == 3)
-                    _p1Res = "Forty";
+                _p1Res = GetScoreDescription(_p1Point);
 
                 _p2Res = "Love";
                 score = _p1Res + "-" + _p2Res;
             }
             if (_p2Point > 0 && _p1Point == 0)
             {
-                if (_p2Point == 1)
-                    _p2Res = "Fifteen";
-                if (_p2Point == 2)
-                    _p2Res = "Thirty";
-                if (_p2Point == 3)
-                    _p2Res = "Forty";
+                _p2Res = GetScoreDescription(_p2Point);
 
                 _p1Res = "Love";
                 score = _p1Res + "-" + _p2Res;
@@ -103,6 +88,17 @@ namespace Tennis
             }
             return score;
         }
+
+        private bool ArePlayersTied() => _p1Point == _p2Point;
+
+        public string GetScoreDescription(int score) =>
+            score switch
+            {
+                0 => "Love",
+                1 => "Fifteen",
+                2 => "Thirty",
+                _ => "Forty",
+            };
 
         public void SetP1Score(int number)
         {
