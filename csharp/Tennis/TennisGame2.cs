@@ -29,23 +29,7 @@ namespace Tennis
             if (ArePlayersTied() && _p1Point > 2)
                 score = "Deuce";
 
-            if (_p1Point > 0 && _p2Point == 0)
-            {
-                score = _p1Description + "-" + _p2Description;
-            }
-            if (_p2Point > 0 && _p1Point == 0)
-            {
-                score = _p1Description + "-" + _p2Description;
-            }
-
-            if (_p1Point > _p2Point && _p1Point < 4)
-            {
-                score = _p1Description + "-" + _p2Description;
-            }
-            if (_p2Point > _p1Point && _p2Point < 4)
-            {
-                score = _p1Description + "-" + _p2Description;
-            }
+            score = GetMidGameScoreDescription(score);
 
             if (_p1Point > _p2Point && _p2Point >= 3)
             {
@@ -66,6 +50,16 @@ namespace Tennis
                 score = "Win for player2";
             }
             return score;
+        }
+
+        private string GetMidGameScoreDescription(string score)
+        {
+            if (_p1Point >= 4 || _p2Point >= 4 || ArePlayersTied())
+            {
+                return score;
+            }
+
+            return _p1Description + "-" + _p2Description;
         }
 
         private bool ArePlayersTied() => _p1Point == _p2Point;
