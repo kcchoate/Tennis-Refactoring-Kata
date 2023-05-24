@@ -28,7 +28,10 @@ namespace Tennis
                     : $"{_p1Description}-All";
             }
 
-            score = GetMidGameScoreDescription(score);
+            if (!IsGameWinnableForPlayer1() && !IsGameWinnableForPlayer2())
+            {
+                return GetMidGameScoreDescription();
+            }
 
             if (_p1Point > _p2Point && _p2Point >= 3)
             {
@@ -51,15 +54,7 @@ namespace Tennis
             return score;
         }
 
-        private string GetMidGameScoreDescription(string score)
-        {
-            if (IsGameWinnableForPlayer1() || IsGameWinnableForPlayer2() || ArePlayersTied())
-            {
-                return score;
-            }
-
-            return _p1Description + "-" + _p2Description;
-        }
+        private string GetMidGameScoreDescription() => _p1Description + "-" + _p2Description;
 
         private bool IsGameWinnableForPlayer1() => _p1Point >= 4;
         private bool IsGameWinnableForPlayer2() => _p2Point >= 4;
