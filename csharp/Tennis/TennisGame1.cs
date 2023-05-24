@@ -27,46 +27,50 @@ namespace Tennis
 
         public string GetScore()
         {
-            var score = "";
-
-            if (_score1 == _score2)
+            if (IsTheGameTied())
             {
-                score = _score1 switch
-                {
-                    0 => "Love-All",
-                    1 => "Fifteen-All",
-                    2 => "Thirty-All",
-                    _ => "Deuce"
-                };
-            }
-            else if (_score1 >= 4 || _score2 >= 4)
-            {
-                if (IsPlayer1WinningBy1Point())
-                {
-                    score = "Advantage player1";
-                }
-                else if (IsPlayer2WinningBy1Point())
-                {
-                    score = "Advantage player2";
-                }
-                else if (IsPlayer1WinningBy2Points())
-                {
-                    score = "Win for player1";
-                }
-                else
-                {
-                    score = "Win for player2";
-                }
-            }
-            else
-            {
-                score = GetScoreDescription(_score1);
-                score += "-";
-                score += GetScoreDescription(_score2);
+                return GetTieScoreDescription();
             }
 
-            return score;
+            return IsInTheEndGamePhase()
+                ? GetEndGamePhaseScoreDescription()
+                : GetMidGameScoreDescription();
         }
+
+        private string GetMidGameScoreDescription() =>
+            $"{GetScoreDescription(_score1)}-{GetScoreDescription(_score2)}";
+
+        private string GetEndGamePhaseScoreDescription()
+        {
+            if (IsPlayer1WinningBy1Point())
+            {
+                return "Advantage player1";
+            }
+
+            if (IsPlayer2WinningBy1Point())
+            {
+                return "Advantage player2";
+            }
+
+            return IsPlayer1WinningBy2Points()
+                ? "Win for player1"
+                : "Win for player2";
+        }
+
+        private string GetTieScoreDescription() =>
+            _score1 switch
+            {
+                0 => "Love-All",
+                1 => "Fifteen-All",
+                2 => "Thirty-All",
+                _ => "Deuce"
+            };
+
+        private bool IsInTheEndGamePhase() =>
+            _score1 >= 4 || _score2 >= 4;
+
+        private bool IsTheGameTied() =>
+            _score1 == _score2;
 
         private bool IsPlayer1WinningBy2Points() =>
             _score1 >= _score2 + 2;
