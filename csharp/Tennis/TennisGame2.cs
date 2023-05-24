@@ -5,7 +5,8 @@ namespace Tennis
         private int _p1Point;
         private int _p2Point;
 
-        private string _p1Res = "";
+        private string _p1Description => GetScoreDescription(_p1Point);
+
         private string _p2Res = "";
         private string _player1Name;
         private string _player2Name;
@@ -30,30 +31,22 @@ namespace Tennis
 
             if (_p1Point > 0 && _p2Point == 0)
             {
-                _p1Res = GetScoreDescription(_p1Point);
-
                 _p2Res = "Love";
-                score = _p1Res + "-" + _p2Res;
+                score = _p1Description + "-" + _p2Res;
             }
             if (_p2Point > 0 && _p1Point == 0)
             {
                 _p2Res = GetScoreDescription(_p2Point);
-
-                _p1Res = "Love";
-                score = _p1Res + "-" + _p2Res;
+                score = _p1Description + "-" + _p2Res;
             }
 
             if (_p1Point > _p2Point && _p1Point < 4)
             {
-                if (_p1Point == 2)
-                    _p1Res = "Thirty";
-                if (_p1Point == 3)
-                    _p1Res = "Forty";
                 if (_p2Point == 1)
                     _p2Res = "Fifteen";
                 if (_p2Point == 2)
                     _p2Res = "Thirty";
-                score = _p1Res + "-" + _p2Res;
+                score = _p1Description + "-" + _p2Res;
             }
             if (_p2Point > _p1Point && _p2Point < 4)
             {
@@ -61,11 +54,7 @@ namespace Tennis
                     _p2Res = "Thirty";
                 if (_p2Point == 3)
                     _p2Res = "Forty";
-                if (_p1Point == 1)
-                    _p1Res = "Fifteen";
-                if (_p1Point == 2)
-                    _p1Res = "Thirty";
-                score = _p1Res + "-" + _p2Res;
+                score = _p1Description + "-" + _p2Res;
             }
 
             if (_p1Point > _p2Point && _p2Point >= 3)
